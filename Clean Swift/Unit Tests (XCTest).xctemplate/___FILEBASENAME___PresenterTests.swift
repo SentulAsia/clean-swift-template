@@ -13,6 +13,7 @@ class ___VARIABLE_sceneName___PresenterTests: XCTestCase {
 
     // MARK: - Subject Under Test (SUT)
 
+    typealias Models = ___VARIABLE_sceneName___Models
     var sut: ___VARIABLE_sceneName___Presenter!
 
     // MARK: - Test Lifecycle
@@ -39,11 +40,18 @@ class ___VARIABLE_sceneName___PresenterTests: XCTestCase {
 
         // MARK: Spied Methods
 
-        var displayFetchFromDataStoreCalled = false
-        var fetchFromDataStoreViewModel: ___VARIABLE_sceneName___Models.FetchFromDataStore.ViewModel!
-        func displayFetchFromDataStore(with viewModel: ___VARIABLE_sceneName___Models.FetchFromDataStore.ViewModel) {
-            displayFetchFromDataStoreCalled = true
-            fetchFromDataStoreViewModel = viewModel
+        var displayFetchFromLocalDataStoreCalled = false
+        var fetchFromLocalDataStoreViewModel: ___VARIABLE_sceneName___Models.FetchFromLocalDataStore.ViewModel!
+        func displayFetchFromLocalDataStore(with viewModel: ___VARIABLE_sceneName___Models.FetchFromLocalDataStore.ViewModel) {
+            displayFetchFromLocalDataStoreCalled = true
+            fetchFromLocalDataStoreViewModel = viewModel
+        }
+
+        var displayFetchFromRemoteDataStoreCalled = false
+        var fetchFromRemoteDataStoreViewModel: ___VARIABLE_sceneName___Models.FetchFromRemoteDataStore.ViewModel!
+        func displayFetchFromRemoteDataStore(with viewModel: ___VARIABLE_sceneName___Models.FetchFromRemoteDataStore.ViewModel) {
+            displayFetchFromRemoteDataStoreCalled = true
+            fetchFromRemoteDataStoreViewModel = viewModel
         }
 
         var displayTrackAnalyticsCalled = false
@@ -63,24 +71,37 @@ class ___VARIABLE_sceneName___PresenterTests: XCTestCase {
 
     // MARK: - Tests
 
-    func testPresentFetchFromDataStoreShouldAskTheViewControllerToDisplay() {
+    func testPresentFetchFromLocalDataStoreShouldAskTheViewControllerToDisplay() {
         // given
         let spy = ___VARIABLE_sceneName___DisplayLogicSpy()
         sut.viewController = spy
-        let response = ___VARIABLE_sceneName___Models.FetchFromDataStore.Response()
+        let response = Models.FetchFromLocalDataStore.Response()
 
         // when
-        sut.presentFetchFromDataStore(with: response)
+        sut.presentFetchFromLocalDataStore(with: response)
 
         // then
-        XCTAssertTrue(spy.displayFetchFromDataStoreCalled, "presentFetchFromDataStore(with:) should ask the view controller to display the result")
+        XCTAssertTrue(spy.displayFetchFromLocalDataStoreCalled, "presentFetchFromLocalDataStore(with:) should ask the view controller to display the result")
+    }
+
+    func testPresentFetchFromRemoteDataStoreShouldAskTheViewControllerToDisplay() {
+        // given
+        let spy = ___VARIABLE_sceneName___DisplayLogicSpy()
+        sut.viewController = spy
+        let response = Models.FetchFromRemoteDataStore.Response()
+
+        // when
+        sut.presentFetchFromRemoteDataStore(with: response)
+
+        // then
+        XCTAssertTrue(spy.displayFetchFromRemoteDataStoreCalled, "presentFetchFromRemoteDataStore(with:) should ask the view controller to display the result")
     }
 
     func testPresentTrackAnalyticsShouldAskTheViewControllerToDisplay() {
         // given
         let spy = ___VARIABLE_sceneName___DisplayLogicSpy()
         sut.viewController = spy
-        let response = ___VARIABLE_sceneName___Models.TrackAnalytics.Response()
+        let response = Models.TrackAnalytics.Response()
 
         // when
         sut.presentTrackAnalytics(with: response)
@@ -93,7 +114,7 @@ class ___VARIABLE_sceneName___PresenterTests: XCTestCase {
         // given
         let spy = ___VARIABLE_sceneName___DisplayLogicSpy()
         sut.viewController = spy
-        let response = ___VARIABLE_sceneName___Models.Perform___VARIABLE_sceneName___.Response()
+        let response = Models.Perform___VARIABLE_sceneName___.Response()
 
         // when
         sut.presentPerform___VARIABLE_sceneName___(with: response)
@@ -104,10 +125,10 @@ class ___VARIABLE_sceneName___PresenterTests: XCTestCase {
 
     func testPresentPerform___VARIABLE_sceneName___ShouldReturnErrorMessageIfThereIsAnError() {
         // given
-        let error = ___VARIABLE_sceneName___Models.Error<___VARIABLE_sceneName___Models.___VARIABLE_sceneName___ErrorType>.init(type: .emptyExampleVariable)
+        let error = Models.___VARIABLE_sceneName___Error(type: .emptyExampleVariable)
         let spy = ___VARIABLE_sceneName___DisplayLogicSpy()
         sut.viewController = spy
-        let response = ___VARIABLE_sceneName___Models.Perform___VARIABLE_sceneName___.Response(error: error)
+        let response = Models.Perform___VARIABLE_sceneName___.Response(error: error)
 
         // when
         sut.presentPerform___VARIABLE_sceneName___(with: response)
